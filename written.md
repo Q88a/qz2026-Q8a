@@ -163,7 +163,7 @@
 
 ### 答案
 
-（在此填写，格式：`1. A  2. D  3. B  4. B  5. A  6. B  7. B  8. B  9. B  10. B）
+（在此填写，格式：`1. A  2. C  3. B  4. B  5. A  6. B  7. B  8. B  9. B  10. B）
 
 ---
 
@@ -181,8 +181,9 @@ b = a.copy()
 import copy
 c = copy.deepcopy(a)
 ```
-
-
+a,b关联，a,c独立。
+执行后b为[[1,2,99],[3,4]]，c为[[1.2],[3,4]]
+因copy()为浅拷贝，底层相同，只有deepcopy()才实现完全独立的深拷贝。
 
 ### 第 2 题：字典与列表的综合应用
 
@@ -202,7 +203,46 @@ logs = [
 2. 写出表达式，统计每个用户出现了几次（返回字典，键为用户名，值为次数）。
 3. 解释为什么第 2 问不能直接用 `len(logs)` 得到结果，需要什么遍历结构？
 
-（在此作答）
+?!这不是q1的题吗 那我按同一思路写了
+```python
+logs = [
+    {"user": "张三", "action": "login", "level": "INFO"},
+    {"user": "李四", "action": "logout", "level": "INFO"},
+    {"user": "张三", "action": "error", "level": "ERROR"},
+    {"user": "王五", "action": "login", "level": "INFO"},
+    {"user": "李四", "action": "error", "level": "ERROR"},
+]
+
+
+#1
+ERROR_list = []
+
+for lis in logs:
+   if lis['level'] == 'ERROR':
+      ERROR_list.append(lis)
+
+print(ERROR_list)
+
+
+#2
+set1 = set()
+user_count = {}
+
+for lis in logs:
+   set1.add(lis['user']) 
+
+for s in set1:
+   i = 0 
+   
+   for lis in logs:
+      if lis['user'] == s:
+         i+=1
+
+   user_count[s] = i
+
+print(user_count)
+```
+#3:直接lens()无法去重，所以除了遍历原列表以外还需遍历集合。
 
 ### 第 3 题：异常处理设计
 
@@ -217,4 +257,16 @@ Day_10 中你写过 `safe_int(s)` 函数：能转就返回整数，不能转就�
 
 请写出函数代码，并说明：为什么这里用 `try/except` 比先用 `if` 判断再计算更好？
 
-（在此作答）
+```python
+def safe_divide(a,b):
+   try:
+      a = int(a)
+      b = int(b)
+      float = a/b
+      return float
+   except (ValueError,ZeroDivisionError):
+      return 
+
+print(safe_divide(input('请输入被除数：'),input('请输入除数：')))
+```
+tryexcept只有捕获到异常才较有判断量（？）代码也更简单。if的话不管有没有异常都要查一遍，效率低。
