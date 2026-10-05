@@ -1,6 +1,6 @@
 {"timestamp": "2026-10-01 10:23:45", "level": "INFO", "message": "用户登录成功", "user": "张三"}
 {"timestamp": "2026-10-01 10:24:01", "level": "ERROR", "message": "数据库连接失败", "user": "李四"}
-{"timestamp": "2026-10-01 10:25:12", "level": "INFO", "message": "用户登出", "user": "张三"}
+{"timestamp": "2026-10-01 10:25:12", "levl": "INFO", "message": "用户登出", "user": "张三"}
 111
 
 {"timestamp": "2026-10-01 10:26:30", "level": "ERROR", "message": "超时", "user": "李四"}
