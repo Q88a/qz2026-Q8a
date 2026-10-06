@@ -4,56 +4,56 @@ class UserManager:
     def __init__(self):
         self.users = []
         self.id0 = 0
-        self.data = {}
-
 
     def add_user(self,name:str,age:int) -> dict:
         self.id0 += 1
-        self.data
-        self.data['id'] =self.id0
-        self.data['name'] = name
-        self.data['age'] = age
-        self.users.append(self.data)#怎么改呢
-        print(self.data)
-        return self.data
+        data = {
+            'id':self.id0,
+            'name':name,
+            'age':age
+        }
+        self.users.append(data)
+        return data
 
-    def get_user(self,id:int ) -> dict|None:
+    def get_user(self,uid:int ) -> dict|None:
         for data in self.users:
-            if data['id'] == id:
+            if data['id'] == uid:
                 return data
-        return
+        return None
 
-    def edit_age(self,id:int,age:int) -> bool:
+    def edit_age(self,uid:int,age:int) -> bool:
 
-        try:
-            get_user = self.get_user(id)
-            get_user['age'] = age
-            return True
-
-        except TypeError:
+        get_user = self.get_user(uid)
+        if get_user is None:
             return False
 
-    def del_user(self,id:int) -> bool:
-        try:
-            get_user = self.get_user(id)
-            self.users.remove(get_user)
-            return True
+        get_user['age'] = age
+        return True
 
-        except TypeError:
+
+
+    def del_user(self,uid:int) -> bool:
+
+        get_user = self.get_user(uid)
+        if get_user is None:
             return False
+
+        self.users.remove(get_user)
+        return True
 
     def list_users(self) -> list:
         return self.users
 
     def save_all_json(self,title:str):
-        return
+        with open(title, 'w',encoding="utf-8") as outfile:
+            json.dump(self.users, outfile,ensure_ascii=False)
 
     def load_all_json(self,title:str):
-        return
+        with open(title,encoding="utf-8") as json_file:
+            self.users = json.load(json_file)
 
-u1=UserManager()
-u1.add_user('a',1)
-print(u1.list_users())
-u1.add_user('b',2)
-print(u1.get_user(9))
-print(u1.list_users())
+        if self.users:#这段判断是deepseek提醒我加上的()
+            self.id0 = max(user['id'] for user in self.users)
+        else:
+            self.id0 = 0
+
